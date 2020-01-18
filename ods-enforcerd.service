@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenDNSSEC Enforcer daemon
+After=syslog.target network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/opendnssec/enforcerd.pid
+EnvironmentFile=-/etc/sysconfig/ods
+ExecStart=/usr/sbin/ods-enforcerd $ODS_ENFORCERD_OPT
+
+[Install]
+WantedBy=multi-user.target

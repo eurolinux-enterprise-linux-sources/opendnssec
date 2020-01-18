@@ -1,0 +1,26 @@
+diff -rNu3 opendnssec-1.4.6/GETSTARTED opendnssec-1.4.6.new/GETSTARTED
+--- opendnssec-1.4.6/GETSTARTED	1970-01-01 01:00:00.000000000 +0100
++++ opendnssec-1.4.6.new/GETSTARTED	2014-09-23 08:20:07.000000000 +0200
+@@ -0,0 +1,22 @@
++For detailed instructions please see
++https://wiki.opendnssec.org/display/DOCS/Getting+Started
++
++Quick start:
++1. Get HSM module with PKCS#11 interface. You can use SoftHSM package.
++
++2. Configure SoftHSM v2:
++2.1. Check /etc/softhsm2.conf and optionally change paths if necessary
++2.2. Make up your own PIN and SO PIN!
++2.3. Initialize SoftHSM token:
++$ softhsm2-util --init-token --slot 0 --label "OpenDNSSEC" \
++    --pin 5678 --so-pin 9012
++2.4. Allow OpenDNSSEC user to access SoftHSM data:
++    $ chown -R ods: <path from /etc/softhsm2.conf>
++
++3. Configure OpenDNSSEC:
++3.1. Write token PIN to /etc/opendnssec/conf.xml
++3.2. Review and modify Key and Signing Policy in /etc/opendnssec/kasp.xml
++3.3. Initialize OpenDNSSEC database:
++    $ ods-ksmutil setup
++
++4. Use OpenDNSSEC - see man ods-ksmutil

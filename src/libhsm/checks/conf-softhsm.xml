@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+	<RepositoryList>
+		<Repository name="default">
+			<Module>/usr/local/lib/softhsm/libsofthsm.so</Module>
+			<TokenLabel>softHSM</TokenLabel>
+			<PIN>123456</PIN>
+		</Repository>
+	</RepositoryList>
+</Configuration>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+	<RepositoryList>
+		<Repository name="default">
+			<Module>/usr/lib/pkcs11/opensc-pkcs11.so</Module>
+			<TokenLabel>OpenDNSSEC</TokenLabel>
+			<PIN>1234</PIN>
+		</Repository>
+	</RepositoryList>
+</Configuration>
