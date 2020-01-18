@@ -3,7 +3,7 @@
 
 Summary: DNSSEC key and zone management software
 Name: opendnssec
-Version: 1.4.6
+Version: 1.4.7
 Release: 3%{?prever}%{?dist}
 License: BSD
 Url: http://www.opendnssec.org/
@@ -15,7 +15,7 @@ Source4: conf.xml
 Source5: tmpfiles-opendnssec.conf
 Source6: opendnssec.cron
 
-Patch0: 0000-add-libhsm-configuration-option-AllowExtraction.patch
+Patch0: opendnssec-1.4.7-1204100-extract.patch
 Patch1: 0001-use-system-trang.patch
 Patch2: 0002-get-started.patch
 
@@ -88,10 +88,10 @@ mkdir -p %{buildroot}%{_localstatedir}/run/opendnssec
 %{_unitdir}/ods-enforcerd.service
 %{_unitdir}/ods-signerd.service
 %config(noreplace) %{_sysconfdir}/tmpfiles.d/opendnssec.conf
-%attr(0750,root,ods) %dir %{_sysconfdir}/opendnssec
-%attr(0770,root,ods) %dir %{_localstatedir}/opendnssec
+%attr(0770,root,ods) %dir %{_sysconfdir}/opendnssec
+%attr(0775,root,ods) %dir %{_localstatedir}/opendnssec
 %attr(0770,root,ods) %dir %{_localstatedir}/opendnssec/tmp
-%attr(0770,root,ods) %dir %{_localstatedir}/opendnssec/signed
+%attr(0775,root,ods) %dir %{_localstatedir}/opendnssec/signed
 %attr(0770,root,ods) %dir %{_localstatedir}/opendnssec/signconf
 %attr(0660,root,ods) %config(noreplace) %{_sysconfdir}/opendnssec/*.xml
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/ods
@@ -127,6 +127,15 @@ ods-ksmutil update all >/dev/null 2>/dev/null ||:
 %systemd_postun_with_restart ods-signerd.service
 
 %changelog
+* Thu Sep 10 2015 Paul Wouters <pwouters@redhat.com> - 1.4.7-3
+- Resolves: rhbz#1261530 /etc/opendnssec is not writeable by ods user
+
+* Thu Jun 11 2015 Paul Wouters <pwouters@redhat.com> - 1.4.7-2
+- Resolves: rhbz#1230287 ods-signerd.service Unknown lvalue 'After'
+
+* Tue Mar 31 2015 Paul Wouters <pwouters@redhat.com> - 1.4.7-1
+- Resolves: rhbz#1204100 Rebase to opendnssec 1.4.7+
+
 * Tue Sep 30 2014 Petr Spacek <pspacek@redhat.com> - 1.4.6-3
 - Updated spec to build platform-indepent conf.xml
 
