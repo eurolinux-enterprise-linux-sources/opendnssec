@@ -4,7 +4,7 @@
 Summary: DNSSEC key and zone management software
 Name: opendnssec
 Version: 1.4.7
-Release: 3%{?prever}%{?dist}
+Release: 4%{?prever}%{?dist}
 License: BSD
 Url: http://www.opendnssec.org/
 Source0: http://www.opendnssec.org/files/source/%{?prever:testing/}%{name}-%{version}%{?prever}.tar.gz
@@ -43,7 +43,7 @@ OpenDNSSEC was created as an open-source turn-key solution for DNSSEC.
 It secures zone data just before it is published in an authoritative
 name server. It requires a PKCS#11 crypto module library, such as softhsm.
 
-This is UNSUPPORTED EXPERIMENTAL package.
+This package is only supported for use with IdM.
 
 %prep
 %setup -q -n %{name}-%{version}%{?prever}
@@ -80,14 +80,14 @@ install -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
 install -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/
 install -m 0644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysconfig/ods
 install -m 0644 %{SOURCE4} %{buildroot}/%{_sysconfdir}/opendnssec/
-mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d/
-install -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/tmpfiles.d/opendnssec.conf
+mkdir -p %{buildroot}%{_tmpfilesdir}
+install -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/opendnssec.conf
 mkdir -p %{buildroot}%{_localstatedir}/run/opendnssec
 
 %files 
 %{_unitdir}/ods-enforcerd.service
 %{_unitdir}/ods-signerd.service
-%config(noreplace) %{_sysconfdir}/tmpfiles.d/opendnssec.conf
+%config(noreplace) %{_tmpfilesdir}/opendnssec.conf
 %attr(0770,root,ods) %dir %{_sysconfdir}/opendnssec
 %attr(0775,root,ods) %dir %{_localstatedir}/opendnssec
 %attr(0770,root,ods) %dir %{_localstatedir}/opendnssec/tmp
@@ -127,6 +127,9 @@ ods-ksmutil update all >/dev/null 2>/dev/null ||:
 %systemd_postun_with_restart ods-signerd.service
 
 %changelog
+* Tue Apr 11 2017 Paul Wouters <pwouters@redhat.com> - 1.4.7-4
+- Resolves: rhbz#1258740  Opendnssec is installing files under /etc/tmpfiles.d
+
 * Thu Sep 10 2015 Paul Wouters <pwouters@redhat.com> - 1.4.7-3
 - Resolves: rhbz#1261530 /etc/opendnssec is not writeable by ods user
 
